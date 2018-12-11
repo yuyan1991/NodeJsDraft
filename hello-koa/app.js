@@ -3,6 +3,8 @@
 const koa = require('koa');
 // 注意require('koa-router')返回的是函数:
 const router = require('koa-router')();
+const bodyParser = require('koa-bodyparser');
+
 const app = new koa();
 
 // log request URL:
@@ -18,7 +20,26 @@ router.get('/hello/:name', async (ctx, next) => {
 });
 
 router.get('/', async (ctx, next) => {
-	ctx.response.body = '<h1>Index</h1>';
+	ctx.response.body = `<h1>Index</h1>
+	<form action="/signin" method="post">
+		<p>Name: <input name="name" value="koa"></p>
+		<p>Password: <input name="password" type="password"></p>
+		<p><input type="submit" value="submit"></p>
+	</form>
+	`;
+});
+
+router.post('/signin', async (ctx, next) => {
+	var name = ctx.request.body.name || '',
+		password = ctx.request.body.password || '';
+	console.log(`signin with name ${name}, password: ${password}`);
+	if (name === 'koa' && password === '12345') {
+		ctx.response.body = `<h1>Welcome, ${name}!</h1>`;
+	} else {
+		ctx.response.body = `<h1>Login failed!</h1>
+		<p><a href="/">Try again</p>
+		`;
+	}
 });
 
 // Not use any more
@@ -27,6 +48,9 @@ router.get('/', async (ctx, next) => {
 // 	ctx.response.type = 'text/html';
 // 	ctx.response.body = '<h1>Hello, koa2!</h1>';
 // });
+
+// add body parser to app
+app.use(bodyParser());
 
 // add router middleware:
 app.use(router.routes());
