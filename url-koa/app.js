@@ -7,29 +7,7 @@ const bodyParser = require('koa-bodyparser');
 
 const app = new koa();
 
-// log request URL:
-app.use(async (ctx, next) => {
-	console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
-	await next();
-});
-
-// 先导入fs模块，然后用readdirSync列出文件
-var fs = require('fs');
-
-// 这里可以用sync是因为启动时只运行一次，不存在性能问题:
-var files = fs.readdirSync(__dirname + '/controllers');
-
-// 过滤出.js文件:
-var js_files = files.filter((f) => {
-	return f.endsWith('.js');
-});
-
-// 处理每个js文件:
-for (var f of js_files) {
-	console.log(`Process controller: ${f}`);
-
-	// 导入js文件:
-	let mapping = require(__dirname + '/controllers/' + f);
+function addMapping(router, mapping) {
 	for (var url in mapping) {
 		if (url.startsWith('GET ')) {
 			// 如果url类似"GET xxx":
@@ -47,6 +25,36 @@ for (var f of js_files) {
 		}
 	}
 }
+
+function addControllers(router) {
+	// 这里可以用sync是因为启动时只运行一次，不存在性能问题:
+	var files = fs.readdirSync(__dirname + '/controllers');
+
+	// 过滤出.js文件:
+	var js_files = files.filter((f) => {
+		return f.endsWith('.js');
+	});
+
+	// 处理每个js文件:
+	for (var f of js_files) {
+		console.log(`Process controller: ${f}`);
+
+		// 导入js文件:
+		let mapping = require(__dirname + '/controllers/' + f);
+		addMapping(router, mapping);
+	}
+}
+
+// log request URL:
+app.use(async (ctx, next) => {
+	console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
+	await next();
+});
+
+// 先导入fs模块，然后用readdirSync列出文件
+var fs = require('fs');
+
+addControllers(router);
 
 // add body parser to app
 app.use(bodyParser());
