@@ -49,7 +49,18 @@ var env2 = createEnv(viewsPath, {
 	watch:	true
 });
 
-console.log(env.render('extend.html', {
+console.log(env2.render('extend.html', {
 	header:	'Hello',
 	body:	'bla bla bla...'
+}))
+
+viewsPath = path.resolve(__dirname, 'views');
+htmlPath = path.resolve(viewsPath, 'fruits.html');
+
+var env3 = createEnv(viewsPath, {
+	watch: true
+});
+
+console.log(env3.render('fruits.html', {
+	fruits:	['apple', 'banana', 'orange', 'watermelon', 'pineapple', 'lemon', 'mango', 'lichi', 'pear', 'coconut', 'strawberry']
 }))
