@@ -1,0 +1,21 @@
+{
+	"name": "use-nunjucks",
+	"version": "1.0.0",
+	"description": "Use Nunjucks Example",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js"
+	},
+	"keywords": [
+		"nunjucks"
+	],
+	"author": "yuyan",
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/yuyan1991/NodeJsDraft.git"
+	},
+	"dependencies": {
+		"nunjucks": "2.4.2"
+	}
+}
