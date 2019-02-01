@@ -1,0 +1,24 @@
+{
+	"name": "hello-mocha",
+	"version": "1.0.0",
+	"description": "Hello Mocha",
+	"main": "hello.js",
+	"scripts": {
+		"test": "mocha"
+	},
+	"keywords": [
+		"mocha"
+	],
+	"author": "yuyan",
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/yuyan1991/NodeJsDraft.git"
+	},
+	"dependencies": {
+		"mz": "2.7.0"
+	},
+	"devDependencies": {
+		"mocha": "3.0.2"
+	}
+}
